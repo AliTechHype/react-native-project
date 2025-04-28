@@ -10,11 +10,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import FontawesomeIcon from "react-native-vector-icons/FontAwesome5";
 import BottomTabs from "../components/NavigationFooter/BottomTab";
 
 const { width } = Dimensions.get("window");
 
 const MainHomeScreen = ({ navigation }) => {
+  const goToCourseDetailPage = () => {
+    console.log("curse detail page request");
+    navigation.navigate("course-details");
+  };
   return (
     <>
       <ScrollView style={styles.container}>
@@ -35,10 +40,10 @@ const MainHomeScreen = ({ navigation }) => {
         {/* Popular Courses */}
         <SectionTitle title="Popular Courses" onPress={() => {}} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+          <CourseCard onPress={goToCourseDetailPage} />
+          <CourseCard onPress={goToCourseDetailPage} />
+          <CourseCard onPress={goToCourseDetailPage} />
+          <CourseCard onPress={goToCourseDetailPage} />
         </ScrollView>
 
         {/* Popular Tutors */}
@@ -59,12 +64,12 @@ const MainHomeScreen = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           style={{ marginBottom: 30 }}
         >
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+          <RecommendedCourseCard />
+          <RecommendedCourseCard />
+          <RecommendedCourseCard />
+          <RecommendedCourseCard />
+          <RecommendedCourseCard />
+          <RecommendedCourseCard />
         </ScrollView>
       </ScrollView>
     </>
@@ -73,40 +78,91 @@ const MainHomeScreen = ({ navigation }) => {
 
 // Section title with See All button
 const SectionTitle = ({ title, onPress }) => (
-  <View style={styles.sectionTitle}>
+  <TouchableOpacity style={styles.sectionTitle}>
     <Text style={styles.sectionText}>{title}</Text>
     <TouchableOpacity onPress={onPress} style={styles.seeAllAbove}>
       <Text style={styles.seeAll}>See All</Text>
       <Icon name="chevron-forward" size={11} style={styles.seeAllIcon}></Icon>
     </TouchableOpacity>
-  </View>
+  </TouchableOpacity>
 );
 
 // Sample Course Card
-const CourseCard = () => (
-  <View style={styles.courseCard}>
+const CourseCard = ({ onPress }) => (
+  <TouchableOpacity style={styles.courseCard} onPress={onPress}>
     <Image
-      source={{ uri: "https://via.placeholder.com/150" }}
+      //   source={{ uri: "https://via.placeholder.com/150" }}
+      source={require("../assets/quranImage.png")}
       style={styles.courseImage}
     />
     <Text style={styles.cardTitle}>Online Quran Reading For Kids</Text>
-    <Text style={styles.cardSubText}>⭐ 5.0 · Ahmed Ali Bukhari</Text>
-    <Text style={styles.cardSubText}>📅 30 Days · 💵 $55 · 📚 25 Lectures</Text>
-  </View>
+    <Text style={styles.cardSubText}>⭐ 5.0 </Text>
+    <Text style={styles.cardSubTutorText}>
+      {" "}
+      <Icon name="school-outline" size={15} /> Ahmed Ali Bukhari
+    </Text>
+    <Text style={styles.cardSubText}>
+      <Icon name="time-outline" size={15} style={{ marginTop: 5 }} /> 30 Days |
+      &ensp;&ensp;
+      <Text style={{ color: "#007bff", fontSize: 15, padding: 0 }}>
+        $ 55
+      </Text>{" "}
+      &ensp; | &ensp;&ensp;{" "}
+      <Icon name="documents-outline" size={15} style={{ padding: 0 }} /> 25
+      Lectures
+    </Text>
+  </TouchableOpacity>
 );
 
 // Sample Tutor Card
 const TutorCard = () => (
-  <View style={styles.tutorCard}>
+  <TouchableOpacity style={styles.tutorCard}>
+    <View style={styles.tutorTopSection}>
+      <Image
+        source={require("../assets/userImage.png")}
+        style={styles.tutorImage}
+      />
+      <View style={styles.tutorInfo}>
+        <Text style={styles.tutorName}>Ahmed Ali Bukhari</Text>
+        <Text style={styles.tutorLocation}>Liyah, Pakistan</Text>
+        <Text style={styles.tutorSubjects}>Recitation, Arabic, Tajweed...</Text>
+      </View>
+    </View>
+    <View style={styles.tutorBottomSection}>
+      <View style={styles.tutorStat}>
+        <Text style={styles.statIcon}>⭐</Text>
+        <Text style={styles.statText}>5.0 | </Text>
+      </View>
+      <View style={styles.tutorStat}>
+        {/* <Text style={styles.statIcon}>  </Text> */}
+        <Text style={styles.statPrice}>$ 10/hr </Text>
+      </View>
+      <View style={styles.tutorStat}>
+        <Text style={styles.statIcon}>
+          | <Icon name="calendar-outline" />
+        </Text>
+        <Text style={styles.statText}>13 Total Sessions</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
+const RecommendedCourseCard = ({ onPress }) => (
+  <TouchableOpacity style={styles.recommendedcourseCard} onPress={onPress}>
     <Image
-      source={{ uri: "https://via.placeholder.com/80" }}
-      style={styles.tutorImage}
+      //   source={{ uri: "https://via.placeholder.com/150" }}
+      source={require("../assets/quranImage.png")}
+      style={styles.recommendedcourseImage}
     />
-    <Text style={styles.cardTitle}>Ahmed Ali Bukhari</Text>
-    <Text style={styles.cardSubText}>📍Liyah, Pakistan</Text>
-    <Text style={styles.cardSubText}>🗣 Recitation, Arabic</Text>
-    <Text style={styles.cardSubText}>💰 $10/hr · 🎓 13 Sessions</Text>
-  </View>
+    <Text style={styles.recommendedcardTitle}>
+      Online Quran Reading For Kids
+    </Text>
+    <Text style={styles.recommendedcardSubText}>
+      ⭐ 5.0 · Ahmed Ali Bukhari
+    </Text>
+    <Text style={styles.recommendedcardSubText}>
+      📅 30 Days · 💵 $55 · 📚 25 Lectures
+    </Text>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -122,7 +178,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 10,
     paddingHorizontal: 12,
-    marginBottom: 16,
+    marginBottom: 10,
     backgroundColor: "#f9f9f9",
   },
   searchInput: {
@@ -187,11 +243,104 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontWeight: "bold",
     fontSize: 14,
-    marginVertical: 4,
+    marginVertical: 6,
   },
   cardSubText: {
     fontSize: 12,
     color: "#555",
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  cardSubTutorText: {
+    fontSize: 12,
+    color: "#555",
+    marginBottom: 5,
+  },
+  recommendedcourseCard: {
+    width: width * 0.7,
+    marginRight: 12,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 10,
+    padding: 10,
+  },
+  recommendedcourseImage: {
+    width: "100%",
+    height: 120,
+    borderRadius: 8,
+  },
+  recommendedcardTitle: {
+    fontWeight: "bold",
+    fontSize: 14,
+    marginVertical: 6,
+  },
+  recommendedcardSubText: {
+    fontSize: 12,
+    color: "#555",
+  },
+  tutorCard: {
+    backgroundColor: "#f9f9f9",
+    borderRadius: 10,
+    padding: 12,
+    marginRight: 12,
+    width: 250,
+    // elevation: 2,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
+  },
+  tutorTopSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  tutorImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 12,
+  },
+  tutorInfo: {
+    flex: 1,
+  },
+  tutorName: {
+    color: "#007bff",
+    fontWeight: "bold",
+    fontSize: 14,
+    marginBottom: 2,
+  },
+  tutorLocation: {
+    color: "#555",
+    fontSize: 12,
+    marginBottom: 2,
+  },
+  tutorSubjects: {
+    color: "#777",
+    fontSize: 12,
+  },
+  tutorBottomSection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 8,
+    alignItems: "center",
+  },
+  tutorStat: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  statIcon: {
+    fontSize: 14,
+    marginRight: 4,
+    color: "#777",
+  },
+  statText: {
+    fontSize: 12,
+    color: "#555",
+  },
+  statPrice: {
+    fontSize: 12,
+    color: "#007bff",
+    fontWeight: "bold",
   },
 });
 

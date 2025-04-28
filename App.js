@@ -62,6 +62,7 @@ import RegisterScreen from "./app/screens/registerScreen";
 import LoginScreen from "./app/screens/loginScreen";
 import MainHomeScreen from "./app/screens/MainHomeScreen";
 import BottomTabs from "./app/components/NavigationFooter/BottomTab";
+import CourseDetailScreen from "./app/screens/CourseDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -94,6 +95,10 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="welcomeHome" component={MainHomeScreen} />
+        <Stack.Screen
+          name="course-details"
+          component={CourseDetailScreen}
+        ></Stack.Screen>
         <Stack.Screen name="BottomTabs" component={BottomTabs} />
       </Stack.Navigator>
     </NavigationContainer>
