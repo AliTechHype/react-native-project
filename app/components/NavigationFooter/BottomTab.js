@@ -90,7 +90,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   );
 };
 
-export default function BottomTabs() {
+export default function BottomTabs({ navigation }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarAnim = useRef(new Animated.Value(-width * 0.7)).current; // sidebar starts hidden (-50% width)
 
@@ -150,7 +150,10 @@ export default function BottomTabs() {
 
             <Text style={styles.sidebarItem}>FAQ's</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{ flexDirection: "row" }}
+            onPress={() => navigation.navigate("Login")}
+          >
             <Icon name="log-out-outline" size={20} color={"black"} />
 
             <Text style={[styles.sidebarItem, { color: "red" }]}>Logout</Text>
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 50,
+    paddingTop: 35,
     paddingBottom: 10,
     paddingHorizontal: 16,
     backgroundColor: "#f8f8f8",

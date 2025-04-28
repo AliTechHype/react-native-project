@@ -23,11 +23,11 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const loginSubmit = async () => {
-    if (email === "aliraza.dev4@gmail.com" && password === "333") {
-      navigation.navigate("BottomTabs");
-    } else {
-      console.log(" not allowed");
-    }
+    // if (email === "aliraza.dev4@gmail.com" && password === "333") {
+    navigation.navigate("BottomTabs");
+    // } else {
+    //   console.log(" not allowed");
+    // }
   };
 
   return (
