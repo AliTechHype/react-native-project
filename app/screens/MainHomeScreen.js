@@ -27,7 +27,7 @@ const MainHomeScreen = ({ navigation }) => {
             style={{ marginRight: 8 }}
           />
           <TextInput
-            placeholder="Search courses, tutor..."
+            placeholder="Search Courses or Tutor"
             style={styles.searchInput}
           />
         </View>
@@ -124,10 +124,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 12,
     marginBottom: 16,
+    backgroundColor: "#f9f9f9",
   },
   searchInput: {
     flex: 1,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   sectionTitle: {
     flexDirection: "row",
