@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   View,
@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Animated,
   Dimensions,
+  TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MainHomeScreen from "../../screens/MainHomeScreen";
@@ -26,38 +28,8 @@ const Profile = () => <Dummy name="Profile" />;
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const sidebarAnim = useRef(new Animated.Value(-width * 0.5)).current; // sidebar starts hidden (-50% width)
-
-  const toggleSidebar = () => {
-    Animated.timing(sidebarAnim, {
-      toValue: isSidebarOpen ? -width * 0.5 : 0,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
     <>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
-          <Icon name="menu" size={30} color="#000" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Home</Text>
-      </View>
-
-      {/* Sidebar */}
-      <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
-        <View style={styles.sidebarContent}>
-          <Text style={styles.sidebarItem}>Dashboard</Text>
-          <Text style={styles.sidebarItem}>Profile</Text>
-          <Text style={styles.sidebarItem}>Settings</Text>
-          <Text style={styles.sidebarItem}>Logout</Text>
-        </View>
-      </Animated.View>
-
       <View style={styles.tabContainer}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -119,18 +91,85 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 };
 
 export default function BottomTabs() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarAnim = useRef(new Animated.Value(-width * 0.7)).current; // sidebar starts hidden (-50% width)
+
+  const toggleSidebar = () => {
+    Animated.timing(sidebarAnim, {
+      toValue: isSidebarOpen ? -width * 0.7 : 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    Animated.timing(sidebarAnim, {
+      toValue: -width * 0.7,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+    setIsSidebarOpen(false);
+  };
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      tabBar={(props) => <CustomTabBar {...props} />}
-      screenOptions={{ headerShown: false }}
-    >
-      <Tab.Screen name="MyLearning" component={MyLearning} />
-      <Tab.Screen name="Explore" component={Explore} />
-      <Tab.Screen name="Home" component={MainHomeScreen} />
-      <Tab.Screen name="Messages" component={Messages} />
-      <Tab.Screen name="Profile" component={Profile} />
-    </Tab.Navigator>
+    <>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
+          <Icon name="menu" size={30} color="#000" />
+        </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
+          <Image
+            source={require("../../assets/userImage.png")}
+            style={{ marginRight: 10 }}
+          />
+          <Icon name="notifications-outline" style={styles.headerTitle}></Icon>
+        </View>
+      </View>
+
+      {isSidebarOpen && (
+        <TouchableWithoutFeedback onPress={closeSidebar}>
+          <View style={styles.overlay} />
+        </TouchableWithoutFeedback>
+      )}
+
+      {/* Sidebar */}
+      <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
+        <Image
+          style={styles.sidebarImage}
+          source={require("../../assets/QuranVerseBlueLogo.png")}
+        />
+        <View style={styles.sidebarContent}>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
+            <Icon name="headset-outline" size={20} color={"black"} />
+
+            <Text style={styles.sidebarItem}>Support</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
+            <Icon name="settings-outline" size={20} color={"black"} />
+
+            <Text style={styles.sidebarItem}>FAQ's</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
+            <Icon name="log-out-outline" size={20} color={"black"} />
+
+            <Text style={[styles.sidebarItem, { color: "red" }]}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+
+      <Tab.Navigator
+        initialRouteName="Home"
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={{ headerShown: false }}
+      >
+        <Tab.Screen name="MyLearning" component={MyLearning} />
+        <Tab.Screen name="Explore" component={Explore} />
+        <Tab.Screen name="Home" component={MainHomeScreen} />
+        <Tab.Screen name="Messages" component={Messages} />
+        <Tab.Screen name="Profile" component={Profile} />
+      </Tab.Navigator>
+    </>
   );
 }
 
@@ -138,6 +177,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingTop: 50,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -145,29 +185,46 @@ const styles = StyleSheet.create({
     elevation: 3,
     zIndex: 5,
   },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    zIndex: 5,
+  },
   menuButton: {
     marginRight: 20,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
   },
   sidebar: {
     position: "absolute",
     top: 0,
     bottom: 0,
-    width: width * 0.5,
-    backgroundColor: "#007bff",
+    width: width * 0.7,
+    backgroundColor: "white",
     zIndex: 10,
-    paddingTop: 100,
+    paddingTop: 70,
   },
   sidebarContent: {
     paddingHorizontal: 20,
   },
   sidebarItem: {
-    color: "#fff",
+    color: "black",
     fontSize: 18,
     marginBottom: 20,
+    marginLeft: 15,
+  },
+  sidebarImage: {
+    width: 100,
+    height: 100,
+    alignSelf: "center",
+    marginBottom: 30,
+    resizeMode: "contain",
   },
   tabContainer: {
     flexDirection: "row",
@@ -181,10 +238,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
   },
-  tabButton: {
-    flex: 1,
-    alignItems: "center",
-  },
+  //   tabButton: {
+  //     flex: 1,
+  //     alignItems: "center",
+  //   },
   centerTabButton: {
     top: -20,
     backgroundColor: "#007bff",
