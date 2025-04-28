@@ -2,6 +2,26 @@
   "expo": {
     "name": "learning_react_native",
     "slug": "learning_react_native",
+    "platforms": ["ios", "android", "web"],
+    "newArchEnabled": true,
+    "android": {
+      "buildType": "apk",
+      "enableDangerousExperimentalLeanBuilds": true
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./app/assets/splash-icon.png",
+          "dark": {
+            "image": "./app/assets/splash-icon-dark.png",
+            "backgroundColor": "#000000"
+          },
+          "imageWidth": 200
+        }
+      ]
+    ],
     "version": "1.0.0"
   }
 }
