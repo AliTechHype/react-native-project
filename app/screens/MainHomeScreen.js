@@ -10,8 +10,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import FontawesomeIcon from "react-native-vector-icons/FontAwesome5";
-import BottomTabs from "../components/NavigationFooter/BottomTab";
 
 const { width } = Dimensions.get("window");
 
@@ -36,6 +34,15 @@ const MainHomeScreen = ({ navigation }) => {
             style={styles.searchInput}
           />
         </View>
+
+        {/* Upcoming classes */}
+        <SectionTitle title="UpComing Classes" onPress={() => {}} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <UpcomingClassesCard onPress={() => {}} />
+          <UpcomingClassesCard onPress={() => {}} />
+          <UpcomingClassesCard onPress={() => {}} />
+          <UpcomingClassesCard onPress={() => {}} />
+        </ScrollView>
 
         {/* Popular Courses */}
         <SectionTitle title="Popular Courses" onPress={() => {}} />
@@ -86,6 +93,34 @@ const SectionTitle = ({ title, onPress }) => (
     </TouchableOpacity>
   </TouchableOpacity>
 );
+
+// Upcoming classes card
+const UpcomingClassesCard = ({ onPress }) => {
+  return (
+    <TouchableOpacity style={styles.upcomingCard} onPress={onPress}>
+      <Image
+        source={require("../assets/quranImage.png")}
+        style={styles.instructorImage}
+      />
+      <Text style={styles.instructorName}>Ahmed Ali Bukhari</Text>
+      <View style={styles.bottomRow}>
+        <View style={styles.dateBox}>
+          <Text style={styles.dateText}>Nov 06,</Text>
+          <Text style={styles.dateText}>02:00 pm</Text>
+        </View>
+        <View style={styles.circleTimer}>
+          <View style={styles.innerCircle}>
+            <Text style={styles.timerText}>00:50</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.sessionsRow}>
+        <Text style={styles.sessionText}>Sessions 2/7</Text>
+        <Text style={styles.classText}>Time left in Class</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 // Sample Course Card
 const CourseCard = ({ onPress }) => (
@@ -341,6 +376,85 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#007bff",
     fontWeight: "bold",
+  },
+  upcomingCard: {
+    width: width * 0.6,
+    padding: 12,
+    borderRadius: 16,
+    backgroundColor: "#f9f9f9",
+    marginRight: 16,
+    // alignItems: "center",
+  },
+  instructorImage: {
+    width: "100%",
+    height: 100,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  instructorName: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 12,
+  },
+  bottomRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  dateBox: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#007bff",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    alignItems: "center",
+  },
+  dateText: {
+    color: "#007bff",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  circleTimer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 3,
+    borderColor: "#007bff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  innerCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  timerText: {
+    fontSize: 12,
+    color: "#007bff",
+    fontWeight: "600",
+  },
+  sessionsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 4,
+  },
+  sessionText: {
+    fontSize: 12,
+    color: "#444",
+    fontWeight: "500",
+  },
+  classText: {
+    fontSize: 12,
+    color: "#888",
+    textAlign: "right",
   },
 });
 
