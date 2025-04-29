@@ -18,6 +18,11 @@ const MainHomeScreen = ({ navigation }) => {
     console.log("curse detail page request");
     navigation.navigate("course-details");
   };
+
+  const goToTutorDetailPage = () => {
+    console.log("tutor detail page request");
+    navigation.navigate("tutor-details");
+  };
   return (
     <>
       <ScrollView style={styles.container}>
@@ -36,7 +41,7 @@ const MainHomeScreen = ({ navigation }) => {
         </View>
 
         {/* Upcoming classes */}
-        <SectionTitle title="UpComing Classes" onPress={() => {}} />
+        <SectionTitle title="Upcoming Classes" onPress={() => {}} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <UpcomingClassesCard onPress={() => {}} />
           <UpcomingClassesCard onPress={() => {}} />
@@ -56,12 +61,12 @@ const MainHomeScreen = ({ navigation }) => {
         {/* Popular Tutors */}
         <SectionTitle title="Popular Tutors" onPress={() => {}} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
+          <TutorCard onPress={goToTutorDetailPage} />
+          <TutorCard onPress={goToTutorDetailPage} />
+          <TutorCard onPress={goToTutorDetailPage} />
+          <TutorCard onPress={goToTutorDetailPage} />
+          <TutorCard onPress={goToTutorDetailPage} />
+          <TutorCard onPress={goToTutorDetailPage} />
         </ScrollView>
 
         {/* Recommended */}
@@ -150,8 +155,8 @@ const CourseCard = ({ onPress }) => (
 );
 
 // Sample Tutor Card
-const TutorCard = () => (
-  <TouchableOpacity style={styles.tutorCard}>
+const TutorCard = ({ onPress }) => (
+  <TouchableOpacity style={styles.tutorCard} onPress={onPress}>
     <View style={styles.tutorTopSection}>
       <Image
         source={require("../assets/userImage.png")}

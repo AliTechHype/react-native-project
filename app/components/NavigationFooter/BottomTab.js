@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MainHomeScreen from "../../screens/MainHomeScreen";
+import Chat from "../../screens/UserMessagesScreen";
 
 const { width } = Dimensions.get("window");
 // Dummy Screens
@@ -169,7 +170,7 @@ export default function BottomTabs({ navigation }) {
         <Tab.Screen name="MyLearning" component={MyLearning} />
         <Tab.Screen name="Explore" component={Explore} />
         <Tab.Screen name="Home" component={MainHomeScreen} />
-        <Tab.Screen name="Messages" component={Messages} />
+        <Tab.Screen name="Messages" component={Chat} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </>
